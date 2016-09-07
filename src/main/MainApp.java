@@ -20,6 +20,7 @@ public class MainApp {
 		StringBuilder builder = new StringBuilder();
 		
 		try {
+			//모든 인풋 텍스트를 라인단위로 리스트에 저장한다.
 			BufferedReader br = new BufferedReader(new FileReader(InputPath));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(OutputPath));
 			String sCurrentLine;
@@ -29,18 +30,44 @@ public class MainApp {
 			}
 			
 			//algorithm
+			//인풋 리스트의 첫 스트링에서  N, M을 파싱하고 첫 스트링을 삭제한다.
 			int N = Integer.parseInt(inputlist.get(0).split(" ")[0]);
 			int M = Integer.parseInt(inputlist.get(0).split(" ")[1]);
-			
 			inputlist.remove(0);
 			
-			ArrayList<Character> CharMap = new ArrayList<Character>();
+			//WordMap을 만들기위해 인풋 리스트의 N개의 스트링을 파싱하여 각 글자마다 Character List에 추가한다.
+			ArrayList<Character> CharList = new ArrayList<Character>();
 			for (int i = 0; i < N; i++) {
-				String[] charset = inputlist.get(i).split(" ");
-				for (int j = 0; j < )
+				char[] charArray = inputlist.get(i).replace(" ", "").toCharArray();
+				for (int j = 0; j < charArray.length; j++) {
+					CharList.add(charArray[j]);
+				}
 			}
 			
-			builder.append(System.getProperty("line.separator"));
+			//WordMap 생성
+			WordMap map = new WordMap(CharList, N);
+			
+			for (int i = N; i < inputlist.size(); i++) {
+				String target = inputlist.get(i);
+				char firstLetter = target.charAt(0);
+				boolean findWord = false;
+				for (int index = 0; index < N*N; index++) {
+					int x = index % N;
+					int y = index / N;
+					if (firstLetter == map.getCharAt(new IntPair(x, y))){
+						IntPair end = map.findWord(new IntPair(x, y), target);
+						if (end != null) {
+							builder.append(y + " " + x + " " + end.y + " " + end.x).append(System.getProperty("line.separator"));
+							findWord = true;
+							break;
+						}
+					}
+				}
+				if(!findWord) {
+					builder.append(0).append(System.getProperty("line.separator"));
+				}
+			}
+			
 			OutputString = builder.toString();
 			bw.write(OutputString);
 			bw.flush();
