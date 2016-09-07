@@ -62,43 +62,68 @@ public class WordMap {
 	public IntPair getNextPosition(IntPair current, Direction direction) {
 		int x = current.x;
 		int y = current.y;
+		int prevX = x;
+		int prevY = y;
 		
 		switch (direction) {
 		
+		// 4방향. x,y 좌표가 범위를 나갈 경우 +n 또는 -n 해줌
 		case UP:
 			y -= 1;
-			break;
-			
-		case UP_RIGHT:
-			y -= 1;
-			x += 1;
+			if (y < 0) y += n;
 			break;
 			
 		case RIGHT:
 			x += 1;
-			break;
-			
-		case DOWN_RIGHT:
-			y += 1;
-			x += 1;
+			if (x >= n) x -= n;
 			break;
 			
 		case DOWN:
 			y += 1;
+			if (y >= n) y -= n;
+			break;
+			
+		case LEFT:
+			x -= 1;
+			if (x < 0) x += n;
+			break;
+			
+		// 범위 나갈 경우 x,y 좌표 swap
+		case UP_RIGHT:
+			y -= 1;
+			x += 1;
+			if (isOutOfRange(x, y)) {
+				y = prevX;
+				x = prevY;
+			}
 			break;
 			
 		case DOWN_LEFT:
 			y += 1;
 			x -= 1;
+			if (isOutOfRange(x, y)) {
+				y = prevX;
+				x = prevY;
+			}
 			break;
 			
-		case LEFT:
-			x -= 1;
+		// 범위 나갈 경우 y = n-x, x = n-y
+		case DOWN_RIGHT:
+			y += 1;
+			x += 1;
+			if (isOutOfRange(x, y)) {
+				y = n - prevX - 1;
+				x = n - prevY - 1;
+			}
 			break;
 			
 		case UP_LEFT:
 			y -= 1;
 			x -= 1;
+			if (isOutOfRange(x, y)) {
+				y = n - prevX - 1;
+				x = n - prevY - 1;
+			}
 			break;
 		
 		}
@@ -134,4 +159,14 @@ public class WordMap {
 	
 	private ArrayList<Character> chars;
 	private int n;
+	
+	/**
+	 * x 또는 y가 범위 밖에 나갔는지 계산
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private boolean isOutOfRange(int x, int y) {
+		return (x < 0) || (x >= n) || (y < 0) || (y >= n);
+	}
 }

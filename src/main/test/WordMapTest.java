@@ -47,6 +47,13 @@ public class WordMapTest {
 		
 		assertEquals(next.x, 0);
 		assertEquals(next.y, 3);
+		
+		current.x = 1;
+		current.y = 3;
+		
+		next = map.getNextPosition(current, WordMap.Direction.DOWN_RIGHT);
+		assertEquals(next.x, 0);
+		assertEquals(next.y, 2);
 	}
 	
 	@Test

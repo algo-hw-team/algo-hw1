@@ -12,8 +12,8 @@ public class MainApp {
 	
 	public static void main(String[] args) {
 		
-		String InputPath = "C:\\hw1\\input.txt";
-		String OutputPath = "C:\\hw1\\2013147550.txt";
+		String InputPath = "./input.txt";
+		String OutputPath = "./2013147550.txt";
 		
 		String OutputString = "";
 		
