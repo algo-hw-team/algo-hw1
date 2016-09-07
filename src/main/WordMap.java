@@ -42,9 +42,6 @@ public class WordMap {
 					hasMatched = false;
 					break;
 				}
-				if (word.equals("greedy")) {
-					System.out.println(current.y + " " + current.x);
-				}
 				current = getNextPosition(current, direction);
 			}
 			
